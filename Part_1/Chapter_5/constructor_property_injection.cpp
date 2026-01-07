@@ -24,6 +24,7 @@ struct FileLogger : Logger
 
 struct Bank
 {
+  Bank(Logger *logger) : logger{logger} {}
   void set_logger(Logger *new_logger)
   {
     logger = new_logger;
@@ -36,15 +37,14 @@ struct Bank
   }
 
 private:
-  Logger *logger{};
+  Logger *logger;
 };
 
 int main()
 {
   ConsoleLogger console_logger;
   FileLogger file_logger;
-  Bank bank;
-  bank.set_logger(&console_logger);
+  Bank bank{&console_logger};
   bank.make_transfer(1000, 2000, 49.95);
   bank.set_logger(&file_logger);
   bank.make_transfer(2000, 4000, 20.00);
